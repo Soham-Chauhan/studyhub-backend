@@ -1,0 +1,83 @@
+// express require
+ const express = require("express")
+
+ // create am object of express
+const app = express()
+
+
+//API Creation
+// http://localhost:3000/test
+
+app.get("/test",(req,res)=>{
+    console.log("api is called...")
+    res.send("test api is called..")
+})
+// server creation
+const PORT = 3000
+app.listen(PORT,()=>{
+    console.log(`server started on PORT ${PORT}`)
+   
+})
+
+//send object in api
+const user = {
+    id:101,
+    name:"soham",
+    age:23,
+    mono:434242424,
+    salary:230000
+}
+
+app.get("/user",(req,res)=>{
+    // res.json(user)
+    res.json({
+        message:"data successfully fatched..",
+        data:user
+    })
+})
+
+// app.get("/users/:id",(req,res)=>{
+//     //:id ----> wild card character
+//     //req.params --->id return karenga
+//     //req.params ----> {} --->json object return karenga --->{id..}
+//     console.log(req.params)
+//     console.log(req.params.id)
+//     res.json({
+//         message:"user fetched..."
+//     })
+// })
+
+// Array 
+const users = [
+    {id:101,name:"soham",age:23,mono:434242424,salary:230000},
+    {id:102,name:"raj",age:21,mono:434242424,salary:210000},
+    {id:103,name:"het",age:23,mono:434242424,salary:20000},
+    {id:104,name:"dhruvil",age:24,mono:434242424,salary:320000},
+    {id:105,name:"vaibhav",age:22,mono:434242424,salary:340000},
+    {id:106,name:"dev",age:20,mono:434242424,salary:430000},
+]
+
+app.get("/users/:id",(req,res)=>{
+
+    const id = Number(req.params.id);
+    const user = users.find((u) => u.id === id)
+
+    if(user){
+        res.json({
+            message:"user fetched...",
+            data:user
+        })
+    }
+    else{
+        res.send("user not found")
+    }
+
+    // res.json({
+    //     message:"data fetched...",
+    //     data:users
+    // })
+})
+
+
+file structure:
+app.js -> routes -> controller -> model
