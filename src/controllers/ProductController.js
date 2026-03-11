@@ -39,11 +39,20 @@ const getProductById = async(req,res)=>{
     
 const addProduct = async(req,res)=>{
     console.log("request body....",req.body)
-    const savedProduct = await productSchema.create(req.body)
-    res.status(201).json({
-        message:"product saved..",
-        data:savedProduct
+
+    try{
+        const savedProduct = await productSchema.create(req.body)
+        res.status(201).json({
+            message:"product saved..",
+            data:savedProduct
     })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"error while creating product....",
+            err:err
+        })
+    }
 }
 
 const deleteProduct = async(req,res)=>{
@@ -87,10 +96,48 @@ const updateProduct = async(req,res)=>{
    
 }
 
+const addColor = async(req,res)=>{
+
+    try{
+        const addColorObj = await productSchema.findByIdAndUpdate(req.params.id,{$push:{productColors:req.body.color}},{new:true})
+
+        res.status(200).json({
+            message:"color added...",
+            data:addColorObj
+        })
+    }
+    catch(err){
+            res.status(500).json({
+                 message:"not added color",
+                err:err
+        })
+    }
+}
+
+const removeColor = async(req,res)=>{
+
+    try{
+        const removeColorObj = await productSchema.findByIdAndUpdate(req.params.id,{$pull:{productColors:req.body.color}},{new:true})
+
+        res.status(200).json({
+            message:"color removed....",
+            data:removeColorObj
+        })
+    }
+    catch(err){
+            res.status(500).json({
+                 message:"not remove color",
+                err:err
+        })
+    }
+}
+
 module.exports = {
     getAllProducts,
     getProductById,
     addProduct,
     deleteProduct,
-    updateProduct  
+    updateProduct,
+    addColor,
+    removeColor 
 }
