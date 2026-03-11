@@ -69,9 +69,28 @@ const deleteProduct = async(req,res)=>{
     }
 }
 
+const updateProduct = async(req,res)=>{
+    
+    // update products ,,, where id=? --? sql query
+    // db.product.updateOne({$set:{,,,,},{_id:,,,}}) ---> mongodb query
+    // new data to upadate : req.body ---> data ayenga body mese
+    // where ?? id : req.parmas ---> id ayengi params me se kisi perticluer data ko id ke basis pe update karane ke liye
+
+    // const updateObj = await productSchema.findByIdAndUpdate(req.params.id, req.body)
+    const updateObj = await productSchema.findByIdAndUpdate(req.params.id, req.body,{new:true})
+
+    
+        res.status(200).json({
+            message:"data updated..",
+            data:updateObj
+        })
+   
+}
+
 module.exports = {
     getAllProducts,
     getProductById,
     addProduct,
-    deleteProduct  
+    deleteProduct,
+    updateProduct  
 }
